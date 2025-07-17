@@ -72,7 +72,7 @@
                 @endforeach
             </div>
             <div class="text-center mt-4">
-                <a href="{{ route('news.index') }}" class="btn btn-light rounded-pill px-4 py-2">Lihat lebih banyak</a>
+                <a href="{{ route('detail_programs.index') }}" class="btn btn-light rounded-pill px-4 py-2">Lihat lebih banyak</a>
             </div>
         </div>
     </div>
@@ -110,7 +110,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ route('news.index') }}" class="btn btn-light rounded-pill px-4 py-2">Lihat lebih banyak</a>
+                <a href="{{ route('detail_news.index') }}" class="btn btn-light rounded-pill px-4 py-2">Lihat lebih banyak</a>
             </div>
         </div>
     </div>
