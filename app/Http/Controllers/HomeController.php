@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
+use App\Models\Program;
+use App\Models\School;
+use App\Models\News;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -23,6 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $program = Program::latest()->first();
+        $organization = Organization::latest()->first();
+        $programs = Program::latest()->take(4)->get();
+        $schools = School::all();
+        $news = News::latest()->get();
+        return view('landing', compact('program', 'organization', 'programs', 'schools', 'news'));
     }
 }
