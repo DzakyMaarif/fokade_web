@@ -72,7 +72,8 @@
                 @endforeach
             </div>
             <div class="text-center mt-4">
-                <a href="{{ route('detail_programs.index') }}" class="btn btn-light rounded-pill px-4 py-2">Lihat lebih banyak</a>
+                <a href="{{ route('detail_programs.index') }}" class="btn btn-light rounded-pill px-4 py-2">Lihat lebih
+                    banyak</a>
             </div>
         </div>
     </div>
@@ -98,19 +99,23 @@
             <div class="row">
                 @foreach ($news->take(6) as $item)
                     <div class="col-6 col-md-4 mb-4">
-                        <div style="background:white; border-radius:10px; overflow:hidden;" class="h-100">
-                            <img src="{{ asset($item->photo) }}" alt="{{ $item->title }}" class="w-100"
-                                style="height:250px; object-fit:cover;">
-                            <div class="p-2 text-dark text-center">
-                                <strong>{{ $item->title }}</strong>
+                        {{-- BUNGKUS SELURUH KARTU DENGAN LINK --}}
+                        <a href="{{ route('detail_news.show', $item) }}" class="text-decoration-none d-block h-100">
+                            <div style="background:white; border-radius:10px; overflow:hidden;" class="h-100">
+                                <img src="{{ asset($item->photo) }}" alt="{{ $item->title }}" class="w-100"
+                                    style="height:250px; object-fit:cover;">
+                                <div class="p-2 text-dark text-center">
+                                    <strong>{{ $item->title }}</strong>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 @endforeach
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ route('detail_news.index') }}" class="btn btn-light rounded-pill px-4 py-2">Lihat lebih banyak</a>
+                <a href="{{ route('detail_news.index') }}" class="btn btn-light rounded-pill px-4 py-2">Lihat lebih
+                    banyak</a>
             </div>
         </div>
     </div>
