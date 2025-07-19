@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -53,26 +52,28 @@ class UserSeeder extends Seeder
             'delete_news',
         ];
 
-        // 3. Buat permission satu per satu (atau gunakan insert dengan upsert di DB yang mendukung)
+        // 3. Buat permission satu per satu jika belum ada
         foreach ($adminPermissions as $perm) {
             Permission::firstOrCreate(
                 ['name' => $perm, 'guard_name' => 'web']
             );
         }
 
-        // 4. Sinkronkan permissions ke role Admin
+        // 4. Sinkronkan semua permission ke role Admin
         $adminRole->syncPermissions($adminPermissions);
 
         // 5. Buat atau ambil user admin
         $admin = User::firstOrCreate(
             ['email' => 'adminfokade1@gmail.com'],
             [
-                'name'     => 'Admin Fokade 1',
+                'name' => 'Admin Fokade 1',
                 'password' => Hash::make('4dm1nf0k4d3'),
             ]
         );
 
         // 6. Pastikan user memiliki role Admin
-        $admin->assignRole('Admin');
+        if (! $admin->hasRole('Admin')) {
+            $admin->assignRole('Admin');
+        }
     }
 }
