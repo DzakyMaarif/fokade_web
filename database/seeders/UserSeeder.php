@@ -16,8 +16,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminRole = Role::create(['name' => 'Admin']);
+        // 1. Buat atau ambil role Admin
+        $adminRole = Role::firstOrCreate(
+            ['name' => 'Admin', 'guard_name' => 'web']
+        );
 
+        // 2. Definisikan daftar permission
         $adminPermissions = [
             'create_organizations',
             'read_organizations',
@@ -48,15 +52,27 @@ class UserSeeder extends Seeder
             'update_news',
             'delete_news',
         ];
-        Permission::insert(array_map(fn($name) => ['name' => $name, 'guard_name' => 'web'], $adminPermissions));
 
+        // 3. Buat permission satu per satu (atau gunakan insert dengan upsert di DB yang mendukung)
+        foreach ($adminPermissions as $perm) {
+            Permission::firstOrCreate(
+                ['name' => $perm, 'guard_name' => 'web']
+            );
+        }
+
+        // 4. Sinkronkan permissions ke role Admin
         $adminRole->syncPermissions($adminPermissions);
 
-        User::factory()->create([
-            'name' => 'Admin Fokade 1',
-            'email' => 'adminfokade1@gmail.com',
-            'password' => Hash::make("4dm1nf0k4d3"),
-        ]);
-        User::firstWhere('email', 'adminfokade1@gmail.com')->assignRole('Admin');
+        // 5. Buat atau ambil user admin
+        $admin = User::firstOrCreate(
+            ['email' => 'adminfokade1@gmail.com'],
+            [
+                'name'     => 'Admin Fokade 1',
+                'password' => Hash::make('4dm1nf0k4d3'),
+            ]
+        );
+
+        // 6. Pastikan user memiliki role Admin
+        $admin->assignRole('Admin');
     }
 }
